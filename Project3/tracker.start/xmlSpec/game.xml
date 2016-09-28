@@ -1,0 +1,82 @@
+<?xml version = "1.0"?>
+<GameData>
+<!-- screenTitle is also used to identify you and your animation. 
+     So make sure to include your name as part of the screenTitle -->
+<screenTitle>Praarthana Ramakrishnan's Star Animation</screenTitle>
+<maxStringSize>50</maxStringSize>
+
+<frameCap>60</frameCap>
+<framesAreCapped>true</framesAreCapped>
+
+<frameMax>200</frameMax>
+<username>praartr</username>
+
+<view>
+  <width>768</width>
+  <height>465</height>
+</view>
+
+<world>
+  <width>1536</width>
+  <height>465</height>
+</world>
+
+<front>
+  <file>images/grass.png</file>
+  <factor>1</factor>
+  <transparency>true</transparency>
+</front>
+
+<back>
+  <file>images/building2.png</file>
+  <factor>4</factor>
+  <transparency>false</transparency>
+</back>
+
+<building>
+  <file>images/buildings.png</file>
+  <factor>2</factor>
+  <transparency>true</transparency>
+</building>
+
+<sky>
+  <file>images/background.jpg</file>
+  <factor>8</factor>
+  <transparency>false</transparency>
+</sky>
+<font name="font">
+  <file>font/dyslexic-bold.otf</file>
+  <size>16</size>
+  <red>0</red>
+  <green>0</green>
+  <blue>0</blue>
+  <unused>0</unused>
+</font>
+
+<spinstar>
+  <file>images/star.png</file>
+  <startLoc x="120" y="140"/>
+  <frames>4</frames>
+  <frameInterval>20</frameInterval>
+  <speedX>-200</speedX>
+  <speedY>200</speedY>
+  <transparency>true</transparency>
+</spinstar>
+
+<star>
+  <file>images/yellowstar32.png</file>
+  <startLoc x="320" y="240"/>
+  <speedX>-175</speedX>
+  <speedY>-175</speedY>
+  <transparency>true</transparency>
+</star>
+
+<greenorb>
+  <file>images/greenball.bmp</file>
+  <startLoc x="320" y="240"/>
+  <speedX>175</speedX>
+  <speedY>175</speedY>
+  <transparency>true</transparency>
+</greenorb>
+
+</GameData>
