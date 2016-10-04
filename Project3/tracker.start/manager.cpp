@@ -22,7 +22,6 @@ Manager::Manager() :
   cloud("sky", Gamedata::getInstance().getXmlInt("sky/factor") ),
   world("back", Gamedata::getInstance().getXmlInt("back/factor") ),
   buildings("building", Gamedata::getInstance().getXmlInt("building/factor") ),
-  grass("front", Gamedata::getInstance().getXmlInt("front/factor") ),
   viewport( Viewport::getInstance() ),
   sprites(),
   currentSprite(0),
@@ -38,9 +37,7 @@ Manager::Manager() :
   }
   SDL_WM_SetCaption(title.c_str(), NULL);
   atexit(SDL_Quit);
-  sprites.push_back( new MultiSprite("spinstar") );
-  sprites.push_back( new Sprite("star") );
-  sprites.push_back( new Sprite("greenorb") );
+  sprites.push_back( new MultiSprite("man") );
   viewport.setObjectToTrack(sprites[currentSprite]);
 }
 
@@ -48,7 +45,6 @@ void Manager::draw() const {
   cloud.draw();
   world.draw();
   buildings.draw();
-  grass.draw();
   for (unsigned i = 0; i < sprites.size(); ++i) {
     sprites[i]->draw();
   }
@@ -95,7 +91,6 @@ void Manager::update() {
   cloud.update();
   world.update();
   buildings.update();
-  grass.update();
   viewport.update(); // always update viewport last
 }
 

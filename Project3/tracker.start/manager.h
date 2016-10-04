@@ -21,7 +21,6 @@ private:
   World cloud;
   World world;
   World buildings;
-  World grass;
   Viewport& viewport;
 
   std::vector<Drawable*> sprites;
