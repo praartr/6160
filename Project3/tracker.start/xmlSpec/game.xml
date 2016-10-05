@@ -2,7 +2,7 @@
 <GameData>
 <!-- screenTitle is also used to identify you and your animation. 
      So make sure to include your name as part of the screenTitle -->
-<screenTitle>Praarthana Ramakrishnan's Star Animation</screenTitle>
+<screenTitle>Praarthana Ramakrishnan's BasketBall Animation</screenTitle>
 <maxStringSize>50</maxStringSize>
 
 <frameCap>60</frameCap>
@@ -41,18 +41,18 @@
 <font name="font">
   <file>font/dyslexic-bold.otf</file>
   <size>16</size>
-  <red>0</red>
-  <green>0</green>
-  <blue>0</blue>
+  <red>255</red>
+  <green>255</green>
+  <blue>255</blue>
   <unused>0</unused>
 </font>
 
 <man>
-  <file>images/ninja1.png</file>
-  <startLoc x="50" y="300"/>
-  <frames>5</frames>
-  <frameInterval>150</frameInterval>
-  <speedX>300</speedX>
+  <file>images/basketball.png</file>
+  <startLoc x="0" y="300"/>
+  <frames>14</frames>
+  <frameInterval>90</frameInterval>
+  <speedX>-150</speedX>
   <speedY>0</speedY>
   <transparency>true</transparency>
 </man>

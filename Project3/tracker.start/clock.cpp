@@ -21,6 +21,9 @@ Clock::Clock() :
   framesAreCapped(Gamedata::getInstance().getXmlBool("framesAreCapped")), 
   frameCap(Gamedata::getInstance().getXmlInt("frameCap")), 
   frames(0), 
+  FrameRate(),
+  avgFrameRate(0),
+  sum(0),
   tickSum(0),
   sumOfAllTicks(0),
   timeAtStart(0), timeAtPause(0),
@@ -36,6 +39,9 @@ Clock::Clock(const Clock& c) :
   framesAreCapped(c.framesAreCapped), 
   frameCap(c.frameCap), 
   frames(c.frames),
+  FrameRate(),
+  avgFrameRate(c.avgFrameRate),
+  sum(c.sum),
   tickSum(c.tickSum),
   sumOfAllTicks(c.sumOfAllTicks),
   timeAtStart(c.timeAtStart), timeAtPause(c.timeAtPause),
@@ -101,6 +107,19 @@ Clock& Clock::operator++() {
   if ( !paused ) {
     ++frames; 
   }
+  std::cout << FrameRate.size() << std::endl;  
+  if(FrameRate.size() < 200){ 
+  if(getSeconds() == 0) FrameRate.push_front(0);
+  else { 
+       sum += getFrames()/getSeconds();
+       FrameRate.push_front(sum);
+  }
+  }
+  else if(FrameRate.size() == 200){
+  avgFrameRate = sum/200;
+  sum = sum - FrameRate[199];
+  FrameRate.pop_back();
+  }
   return *this;
 }
 
@@ -121,5 +140,8 @@ void Clock::unpause() {
     timeAtStart = SDL_GetTicks() - timeAtPause;
     paused = false;
   }
+}
+unsigned int Clock::getAverageFrameRate() const{
+  return avgFrameRate;
 }
 

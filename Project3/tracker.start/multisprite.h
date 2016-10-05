@@ -8,8 +8,8 @@ class MultiSprite : public Drawable {
 public:
   MultiSprite(const std::string&);
   MultiSprite(const MultiSprite&);
-  virtual ~MultiSprite() { } 
-
+  virtual ~MultiSprite() { }  
+  virtual void advanceFrame(Uint32 ticks);
   virtual void draw() const;
   virtual void update(Uint32 ticks);
   virtual const Frame* getFrame() const { 
@@ -28,6 +28,5 @@ protected:
   int frameWidth;
   int frameHeight;
 
-  void advanceFrame(Uint32 ticks);
 };
 #endif

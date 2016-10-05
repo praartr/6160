@@ -1,6 +1,6 @@
 #include <SDL.h>
 #include <string>
-
+#include <deque>
 class Manager;
 
 class Clock {
@@ -8,7 +8,7 @@ public:
   static Clock& getInstance();
   unsigned int getTicks() const;
   unsigned int getTotalTicks() const { return sumOfAllTicks; }
-
+  unsigned int getAverageFrameRate() const;
 private:
   friend class Manager;
   bool started;
@@ -16,9 +16,10 @@ private:
   bool sloMo;
   const bool framesAreCapped;
   const int frameCap;
-
-  unsigned int frames;
-
+  unsigned int frames;  
+  std::deque<int> FrameRate;
+  unsigned int avgFrameRate;
+  unsigned int sum;
   unsigned int tickSum;
   unsigned int sumOfAllTicks;
   unsigned int timeAtStart;
@@ -26,7 +27,7 @@ private:
   unsigned int currTicks;
   unsigned int prevTicks;
   unsigned int ticks;
-
+  
   unsigned int getElapsedTicks();
   Clock& operator++();
   void toggleSloMo();

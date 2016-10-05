@@ -67,9 +67,9 @@ std::vector<Frame*> FrameFactory::getFrames(const std::string& name) {
   SDL_Surface* surface = IOManager::
      getInstance().loadAndSet(gdata.getXmlStr(name+"/file"), true);
   unsigned numberOfFrames = gdata.getXmlInt(name+"/frames");
-  std::vector<Frame*> frames;
+  std::vector<Frame*> frame;
   std::vector<SDL_Surface*> surfaces;
-  frames.reserve(numberOfFrames);
+  frame.reserve(numberOfFrames);;
 
   Uint16 width = surface->w/numberOfFrames;
   Uint16 height = surface->h;
@@ -80,10 +80,10 @@ std::vector<Frame*> FrameFactory::getFrames(const std::string& name) {
    surf = ExtractSurface::getInstance().
                get(surface, width, height, frameX, 0); 
     surfaces.push_back( surf );
-    frames.push_back( new Frame(surf) );
+    frame.push_back( new Frame(surf) );
   }
   SDL_FreeSurface(surface);
   multiSurfaces[name] = surfaces;
-  multiFrames[name] = frames;
-  return frames;
+  multiFrames[name] = frame;
+  return frame;
 }

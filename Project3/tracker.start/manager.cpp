@@ -5,7 +5,7 @@
 #include "sprite.h"
 #include "gamedata.h"
 #include "manager.h"
-
+#include "twowaysprite.h"
 Manager::~Manager() { 
   // These deletions eliminate "definitely lost" and
   // "still reachable"s in Valgrind.
@@ -37,7 +37,8 @@ Manager::Manager() :
   }
   SDL_WM_SetCaption(title.c_str(), NULL);
   atexit(SDL_Quit);
-  sprites.push_back( new MultiSprite("man") );
+  sprites.reserve(1);
+  sprites.push_back( new TwoWaySprite("man") );
   viewport.setObjectToTrack(sprites[currentSprite]);
 }
 
@@ -48,10 +49,9 @@ void Manager::draw() const {
   for (unsigned i = 0; i < sprites.size(); ++i) {
     sprites[i]->draw();
   }
-
   io.printMessageValueAt("Seconds: ", clock.getSeconds(), 10, 20);
-  io.printMessageAt("Press T to switch sprites", 10, 45);
-  io.printMessageAt(title, 10, 450);
+  io.printMessageAt(title, 10, 100);
+  io.printMessageValueAt("AverageFramePerSecond:", clock.getAverageFrameRate(),10,150);
   viewport.draw();
 
   SDL_Flip(screen);
@@ -73,6 +73,7 @@ void Manager::switchSprite() {
 }
 
 void Manager::update() {
+  
   ++(clock);
   Uint32 ticks = clock.getElapsedTicks();
 
