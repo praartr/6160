@@ -54,7 +54,7 @@ void Manager::draw() const {
   }
   io.printMessageValueAt("Seconds: ", clock.getSeconds(), 10, 20);
   io.printMessageAt(title, 10, 450);
-  io.printMessageValueAt("Fps:", clock.getAverageFrameRate(),650,20);
+  io.printMessageValueAt("Fps:", clock.getAverageFrameRate(),750,20);
   viewport.draw();
   SDL_Flip(screen);
 }
