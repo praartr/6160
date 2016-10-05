@@ -8,36 +8,40 @@
 <frameCap>60</frameCap>
 <framesAreCapped>true</framesAreCapped>
 
-<frameMax>200</frameMax>
+<frameMax>300</frameMax>
 <username>praartr</username>
-
+<avgFrame>200</avgFrame>
 <view>
-  <width>768</width>
-  <height>465</height>
+  <width>854</width>
+  <height>480</height>
 </view>
 
 <world>
-  <width>1536</width>
-  <height>465</height>
+  <width>1708</width>
+  <height>480</height>
 </world>
 
-<back>
-  <file>images/building2.png</file>
+<back_building>
+  <file>images/back_building.png</file>
   <factor>4</factor>
   <transparency>false</transparency>
-</back>
+</back_building>
 
-<building>
-  <file>images/buildings.png</file>
+<front_building>
+  <file>images/front_building.png</file>
   <factor>2</factor>
   <transparency>true</transparency>
-</building>
-
-<sky>
-  <file>images/background.jpg</file>
+</front_building>
+<platform>
+  <file>images/platform.png</file>
+  <factor>1</factor>
+  <transparency>true</transparency>
+</platform>
+<night_sky>
+  <file>images/night_sky.png</file>
   <factor>8</factor>
   <transparency>false</transparency>
-</sky>
+</night_sky>
 <font name="font">
   <file>font/dyslexic-bold.otf</file>
   <size>16</size>
@@ -49,12 +53,29 @@
 
 <man>
   <file>images/basketball.png</file>
-  <startLoc x="0" y="300"/>
+  <startLoc x="0" y="280"/>
   <frames>14</frames>
   <frameInterval>90</frameInterval>
-  <speedX>-150</speedX>
+  <speedX>-400</speedX>
   <speedY>0</speedY>
   <transparency>true</transparency>
 </man>
 
+<bird>
+  <file>images/bird.png</file>
+  <startLoc x="0" y= "70"/>
+  <frames>8</frames>
+  <frameInterval>50</frameInterval>
+  <speedX>-400</speedX>
+  <speedY>0</speedY>
+  <transparency>true</transparency>
+</bird>
+
+<ring>
+  <file>images/ring.png</file>
+  <startLoc x ="0" y = "0"/>
+  <speedX>-350</speedX>
+  <speedY>-350</speedY>
+  <transparency>true</transparency>
+</ring>
 </GameData>

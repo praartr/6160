@@ -18,9 +18,10 @@ private:
   Clock clock;
 
   SDL_Surface * const screen;
-  World cloud;
-  World world;
-  World buildings;
+  World night_sky;
+  World back_building;
+  World front_building;
+  World platform;
   Viewport& viewport;
 
   std::vector<Drawable*> sprites;
@@ -31,7 +32,6 @@ private:
   const std::string username;
   const std::string title;
   const int frameMax;
-
   void draw() const;
   void update();
 

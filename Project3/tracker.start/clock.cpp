@@ -22,6 +22,7 @@ Clock::Clock() :
   frameCap(Gamedata::getInstance().getXmlInt("frameCap")), 
   frames(0), 
   FrameRate(),
+  avgFrames(Gamedata::getInstance().getXmlInt("avgFrame")),
   avgFrameRate(0),
   sum(0),
   tickSum(0),
@@ -40,6 +41,7 @@ Clock::Clock(const Clock& c) :
   frameCap(c.frameCap), 
   frames(c.frames),
   FrameRate(),
+  avgFrames(c.avgFrames),
   avgFrameRate(c.avgFrameRate),
   sum(c.sum),
   tickSum(c.tickSum),
@@ -86,7 +88,6 @@ unsigned int Clock::getTicks() const {
 unsigned int Clock::getElapsedTicks() { 
   if (paused) return 0;
   else if ( sloMo ) return 1;
-
   currTicks = getTicks();
   ticks = currTicks-prevTicks;
   unsigned int delay = capFrameRate();
@@ -104,21 +105,27 @@ unsigned int Clock::capFrameRate() const {
 }
 
 Clock& Clock::operator++() { 
+  unsigned int i=0;
   if ( !paused ) {
     ++frames; 
+  } 
+  if(FrameRate.size() < avgFrames) {     //avgFrames = 200 
+     if(getSeconds() == 0) {
+        FrameRate.push_front(0);
+     }
+     else { 
+       i = frames/getSeconds();
+       FrameRate.push_front(i);
+       sum += i;
+     }
   }
-  std::cout << FrameRate.size() << std::endl;  
-  if(FrameRate.size() < 200){ 
-  if(getSeconds() == 0) FrameRate.push_front(0);
-  else { 
-       sum += getFrames()/getSeconds();
-       FrameRate.push_front(sum);
-  }
-  }
-  else if(FrameRate.size() == 200){
-  avgFrameRate = sum/200;
-  sum = sum - FrameRate[199];
-  FrameRate.pop_back();
+  else if(FrameRate.size() >= avgFrames) {
+    avgFrameRate = sum/avgFrames;
+    sum = sum - FrameRate[0];
+    FrameRate.pop_back();
+    i = frames/getSeconds();
+    FrameRate.push_front(i);
+    sum += i;
   }
   return *this;
 }
@@ -141,7 +148,7 @@ void Clock::unpause() {
     paused = false;
   }
 }
-unsigned int Clock::getAverageFrameRate() const{
+unsigned int Clock::getAverageFrameRate() const {
   return avgFrameRate;
 }
 

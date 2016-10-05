@@ -19,19 +19,19 @@ Manager::Manager() :
   io( IOManager::getInstance() ),
   clock( Clock::getInstance() ),
   screen( io.getScreen() ),
-  cloud("sky", Gamedata::getInstance().getXmlInt("sky/factor") ),
-  world("back", Gamedata::getInstance().getXmlInt("back/factor") ),
-  buildings("building", Gamedata::getInstance().getXmlInt("building/factor") ),
+  night_sky("night_sky", Gamedata::getInstance().getXmlInt("night_sky/factor") ),
+  back_building("back_building", Gamedata::getInstance().getXmlInt("back_building/factor") ),
+  front_building("front_building", Gamedata::getInstance().getXmlInt("front_building/factor") ),
+  platform("platform", Gamedata::getInstance().getXmlInt("platform/factor") ),
   viewport( Viewport::getInstance() ),
   sprites(),
   currentSprite(0),
-
   makeVideo( false ),
   frameCount( 0 ),
   username(  Gamedata::getInstance().getXmlStr("username") ),
   title( Gamedata::getInstance().getXmlStr("screenTitle") ),
   frameMax( Gamedata::getInstance().getXmlInt("frameMax") )
-{
+  {
   if (SDL_Init(SDL_INIT_VIDEO) != 0) {
     throw string("Unable to initialize SDL: ");
   }
@@ -39,21 +39,23 @@ Manager::Manager() :
   atexit(SDL_Quit);
   sprites.reserve(1);
   sprites.push_back( new TwoWaySprite("man") );
+  sprites.push_back( new MultiSprite("bird") );
+  sprites.push_back( new Sprite("ring") );
   viewport.setObjectToTrack(sprites[currentSprite]);
 }
 
 void Manager::draw() const {
-  cloud.draw();
-  world.draw();
-  buildings.draw();
+  night_sky.draw();
+  back_building.draw();
+  front_building.draw();
+  platform.draw();
   for (unsigned i = 0; i < sprites.size(); ++i) {
     sprites[i]->draw();
   }
   io.printMessageValueAt("Seconds: ", clock.getSeconds(), 10, 20);
-  io.printMessageAt(title, 10, 100);
-  io.printMessageValueAt("AverageFramePerSecond:", clock.getAverageFrameRate(),10,150);
+  io.printMessageAt(title, 10, 450);
+  io.printMessageValueAt("Fps:", clock.getAverageFrameRate(),650,20);
   viewport.draw();
-
   SDL_Flip(screen);
 }
 
@@ -72,26 +74,24 @@ void Manager::switchSprite() {
   viewport.setObjectToTrack(sprites[currentSprite]);
 }
 
-void Manager::update() {
-  
+void Manager::update() {  
   ++(clock);
   Uint32 ticks = clock.getElapsedTicks();
-
   static unsigned int lastSeconds = clock.getSeconds();
   if ( clock.getSeconds() - lastSeconds == 5 ) {
     lastSeconds = clock.getSeconds();
     //switchSprite();
   }
-
   for (unsigned int i = 0; i < sprites.size(); ++i) {
     sprites[i]->update(ticks);
   }
   if ( makeVideo && frameCount < frameMax ) {
     makeFrame();
   }
-  cloud.update();
-  world.update();
-  buildings.update();
+  night_sky.update();
+  back_building.update();
+  front_building.update();
+  platform.update();
   viewport.update(); // always update viewport last
 }
 

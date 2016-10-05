@@ -18,6 +18,7 @@ private:
   const int frameCap;
   unsigned int frames;  
   std::deque<int> FrameRate;
+  unsigned int avgFrames;
   unsigned int avgFrameRate;
   unsigned int sum;
   unsigned int tickSum;
