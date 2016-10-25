@@ -56,7 +56,7 @@ void Clock::display() const {
   static unsigned int lastFrames = 0;
   static unsigned int oldFrames = 0;
   static unsigned int seconds = getSeconds();
-
+  
   if ( getSeconds() > seconds ) {
     seconds = getSeconds();
     lastFrames = frames - oldFrames;

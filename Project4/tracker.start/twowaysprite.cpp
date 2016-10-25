@@ -1,11 +1,11 @@
 #include "twowaysprite.h"
 #include "clock.h"
 #include "gamedata.h"
-TwoWaySprite::TwoWaySprite( const std::string& name) : MultiSprite(name) {
+TwoWaySprite::TwoWaySprite( const std::string& name) : MultiSprite(name),isJumping(0) {
   setVelocity(Vector2f(0,0));
 } 
 
-TwoWaySprite::TwoWaySprite( const TwoWaySprite& t) : MultiSprite(t) {} 
+TwoWaySprite::TwoWaySprite( const TwoWaySprite& t) : MultiSprite(t),isJumping(t.isJumping) {} 
 
 void TwoWaySprite::advanceFrame(Uint32 ticks) {
    timeSinceLastFrame += ticks;
@@ -41,25 +41,26 @@ void TwoWaySprite::update(Uint32 ticks) {
   
  }
 
-  if ( X() < 0) {
-    velocityX( abs( velocityX() ) );
+  if ( X() <= 0) {
+    velocityX(0.0);//abs(velocityX()));
   }
-  if ( X() > worldWidth-frameWidth) {
-    velocityX( -abs( velocityX() ) );
+  if ( X() >= worldWidth-frameWidth) {
+    velocityX(0.0);//-abs( velocityX()) );
   }  
 
 } 
 void TwoWaySprite::left()
 { 
   //advanceFrame(ticks);
+  if(X() > 0)//&& X() < worldWidth-frameWidth)
   velocityX(Gamedata::getInstance().getXmlInt(getName()+"/speedX"));
  
 }
 
 void TwoWaySprite::right()
 {
-  
-  velocityX(-(Gamedata::getInstance().getXmlInt(getName()+"/speedX")));
+    if(X() < worldWidth-frameWidth)
+    velocityX(-(Gamedata::getInstance().getXmlInt(getName()+"/speedX")));
 }
 
 void TwoWaySprite::up()

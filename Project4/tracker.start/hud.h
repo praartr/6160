@@ -1,20 +1,22 @@
 #include "ioManager.h"
 #include "aaline.h"
+#include "clock.h"
 
 class Hud {
 
 public:
-
-Hud();
-void draw() const;
-
+  Hud();
+  void draw() const;
 private:
-
-const IOManager& io;
-SDL_Surface* screen;
-Uint32 RED = SDL_MapRGB(screen->format,0xff,0,0);
-//Transparency =  SDL_MapRGB(screen->format,0xff,0xff,0xff);
-Hud(const Hud&);
-Hud& operator=(const Hud&);
+  Uint32 width;
+  Uint32 height;
+  Uint32 startX;
+  Uint32 startY;
+  const IOManager& io;
+  SDL_Surface* screen;
+  Clock& clock;
+  Hud(const Hud&);
+  Hud& operator=(const Hud&);
 
 };
+

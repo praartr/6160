@@ -9,6 +9,7 @@ public:
   unsigned int getTicks() const;
   unsigned int getTotalTicks() const { return sumOfAllTicks; }
   unsigned int getAverageFrameRate() const;
+  unsigned int getSeconds() const { return getTicks()/1000;  }
 private:
   friend class Manager;
   bool started;
@@ -36,7 +37,6 @@ private:
   bool isStarted() const { return started; }
   bool isPaused() const  { return paused;  }
   unsigned int getFrames() const  { return frames;  }
-  unsigned int getSeconds() const { return getTicks()/1000;  }
   unsigned int capFrameRate() const;
 
   void start();

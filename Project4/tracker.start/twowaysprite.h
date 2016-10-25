@@ -15,6 +15,6 @@ public :
 private:
       virtual void advanceFrame(Uint32 ticks);
       virtual void update(Uint32 ticks);
-      int isJumping =0;
+      int isJumping;
 };
 

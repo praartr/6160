@@ -1,16 +1,28 @@
 #include <iostream>
 #include <string>
 #include <iomanip>
+#include <algorithm>
 #include "multisprite.h"
 #include "sprite.h"
 #include "gamedata.h"
 #include "manager.h"
 #include "twowaysprite.h"
+
+class ScaledSpriteCompare {
+public:
+  bool operator()(const ScaledSprite* lhs, const ScaledSprite* rhs) {
+    return lhs->getScale() < rhs->getScale();
+  }
+};
+
 Manager::~Manager() { 
   // These deletions eliminate "definitely lost" and
   // "still reachable"s in Valgrind.
   for (unsigned i = 0; i < sprites.size(); ++i) {
     delete sprites[i];
+  }
+  for (unsigned i = 0; i < fruits.size(); ++i) {
+    delete fruits[i];
   }
 }
 
@@ -19,6 +31,10 @@ Manager::Manager() :
   io( IOManager::getInstance() ),
   clock( Clock::getInstance() ),
   screen( io.getScreen() ),
+  bananaSurface (io.loadAndSet(Gamedata::getInstance().getXmlStr("banana/file"), 
+              Gamedata::getInstance().getXmlBool("banana/transparency")) ),
+  pineappleSurface(io.loadAndSet(Gamedata::getInstance().getXmlStr("pineapple/file"), 
+              Gamedata::getInstance().getXmlBool("pineapple/transparency")) ),            
   night_sky("night_sky", Gamedata::getInstance().getXmlInt("night_sky/factor") ),
   back_building("back_building", Gamedata::getInstance().getXmlInt("back_building/factor") ),
   front_building("front_building", Gamedata::getInstance().getXmlInt("front_building/factor") ),
@@ -31,11 +47,14 @@ Manager::Manager() :
   username(  Gamedata::getInstance().getXmlStr("username") ),
   title( Gamedata::getInstance().getXmlStr("screenTitle") ),
   frameMax( Gamedata::getInstance().getXmlInt("frameMax") ),
-  hud()
+  hud(),
+  health(),
+  fruits()
   {
   if (SDL_Init(SDL_INIT_VIDEO) != 0) {
     throw string("Unable to initialize SDL: ");
   }
+  makeFruits();
   SDL_WM_SetCaption(title.c_str(), NULL);
   atexit(SDL_Quit);
   sprites.reserve(1);
@@ -43,20 +62,63 @@ Manager::Manager() :
   sprites.push_back( new MultiSprite("bird") );
   sprites.push_back( new Sprite("ring") );
   viewport.setObjectToTrack(sprites[currentSprite]);
+  printFruits();
 }
-
+void Manager::printFruits() const {
+  for (unsigned i = 0; i < fruits.size(); ++i) {
+    std::cout << fruits[i]->getScale() << std::endl;
+  }
+}
+void Manager::makeFruits() {
+  unsigned numberOfFruits = Gamedata::getInstance().getXmlInt("numberOfFruits");
+  fruits.reserve( numberOfFruits );
+  for (unsigned i = 0; i < numberOfFruits; i+=2) {
+    fruits.push_back( new ScaledSprite("banana", bananaSurface) );
+    fruits.push_back( new ScaledSprite("pineapple", pineappleSurface));
+  }
+  sort(fruits.begin(), fruits.end(), ScaledSpriteCompare());
+}
+void Manager::drawSmall(unsigned int* start_index) const {
+	
+  while(*start_index < fruits.size() && fruits[*start_index]->getScale() == 0.5) {
+    fruits[*start_index]->draw();
+    (*start_index)++;
+  }
+	
+}
+void Manager::drawMedium(unsigned int* start_index) const {
+	
+  while( *start_index < fruits.size() && fruits[*start_index]->getScale() == 1.0) {
+    fruits[*start_index]->draw();
+    (*start_index)++;
+  }	
+ 
+}
+void Manager::drawLarge(unsigned int* start_index) const {
+	
+  while( *start_index<fruits.size() && fruits[*start_index]->getScale() == 1.5 ) {
+    fruits[*start_index]->draw();
+    (*start_index)++;
+  }	
+}
 void Manager::draw() const {
+	
+  unsigned int start_index = 0;
   night_sky.draw();
   back_building.draw();
+  drawSmall(&start_index);
   front_building.draw();
+  drawMedium(&start_index);
   platform.draw();
+  drawLarge(&start_index);
   for (unsigned i = 0; i < sprites.size(); ++i) {
     sprites[i]->draw();
   }
-  io.printMessageValueAt("Fps: ", clock.getAverageFrameRate(), 10, 20);
   io.printMessageAt(title, 10, 450);
-  io.printMessageValueAt("Seconds: ", clock.getSeconds(),750,20);
-  hud.draw();
+  if(showHud) {
+    hud.draw();
+  }
+  health.draw();
   viewport.draw();
   SDL_Flip(screen);
 }
@@ -94,6 +156,10 @@ void Manager::update() {
   back_building.update();
   front_building.update();
   platform.update();
+  health.update(ticks);
+  for(unsigned int i=0; i< fruits.size(); i++) {
+    fruits[i]->update(ticks);
+  }
   viewport.update(); // always update viewport last
 }
 
@@ -113,9 +179,6 @@ void Manager::play() {
         if ( keystate[SDLK_t] ) {
           switchSprite();
         }
-       // if ( keystate[SDLK_s] ) {
-        //  clock.toggleSloMo();
-       // }
         if( keystate[SDLK_a] ) {
          static_cast<TwoWaySprite*>(sprites[0])->left();
         }
@@ -133,16 +196,22 @@ void Manager::play() {
           std::cout << "Making video frames" << std::endl;
           makeVideo = true;
         }
+        if(keystate[SDLK_F1]) {
+         showHud = !showHud;
+       }
       }
      if ( event.type == SDL_KEYUP) {
-        if( !keystate[SDLK_w] ) 
+        if( !keystate[SDLK_w] ) {
            static_cast<TwoWaySprite*>(sprites[0])->stopY();
-        if( !keystate[SDLK_a] && !keystate[SDLK_d] )
-
+	    }
+        if( !keystate[SDLK_a] && !keystate[SDLK_d] ) {
            static_cast<TwoWaySprite*>(sprites[0])->stopX();
+	    }
          
       }  
     }
+    if(clock.getSeconds() == 2)
+    showHud = 0;
     draw();
     update();
   }
