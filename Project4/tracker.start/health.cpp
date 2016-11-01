@@ -7,7 +7,7 @@ Health::Health() :
   currentLength(200), 
   thick(14), 
   increments(20),
-  interval(1000),
+  interval(300),
   deltaTime(0),
   RED( SDL_MapRGB(screen->format, 0xff, 0x00, 0x00) ),
   GRAY( SDL_MapRGB(screen->format, 0xce, 0xb4, 0xb4) ),
@@ -56,6 +56,11 @@ void Health::draw() const {
   Draw_AALine(screen, start[0], start[1], 
                       start[0]+currentLength, start[1], 
                       thick, color);
+}
+void Health::decreaseHealth()
+{
+	if(currentLength>0)
+		currentLength-= increments;
 }
 void Health::update(Uint32 ticks) {
   deltaTime += ticks;

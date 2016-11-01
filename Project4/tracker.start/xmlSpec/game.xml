@@ -2,11 +2,12 @@
 <GameData>
 <!-- screenTitle is also used to identify you and your animation. 
      So make sure to include your name as part of the screenTitle -->
-<screenTitle>Praarthana Ramakrishnan's BasketBall Animation</screenTitle>
+<screenTitle>"Monkey in beach" by Praarthana and Neela </screenTitle>
 <maxStringSize>50</maxStringSize>
 
 <frameCap>60</frameCap>
 <framesAreCapped>true</framesAreCapped>
+<idleTimeLimit>200</idleTimeLimit>
 
 <frameMax>300</frameMax>
 <username>praartr</username>
@@ -20,7 +21,7 @@
   <hudHeight>400</hudHeight>
   <hudStartX>0</hudStartX>
   <hudStartY>20</hudStartY>
-  <showHud>1</showHud>
+  <showHud>true</showHud>
 </hud>
 <health>
   <startX>650</startX>
@@ -31,14 +32,9 @@
   <height>505</height>
 </world>
 
-<back_building>
-  <file>images/back_building.png</file>
-  <factor>4</factor>
-  <transparency>false</transparency>
-</back_building>
 
 <front_building>
-  <file>images/front_building.png</file>
+  <file>images/sea.png</file>
   <factor>2</factor>
   <transparency>true</transparency>
 </front_building>
@@ -48,19 +44,19 @@
   <transparency>true</transparency>
 </platform>
 <night_sky>
-  <file>images/night_sky.png</file>
+  <file>images/sky.png</file>
   <factor>8</factor>
   <transparency>false</transparency>
 </night_sky>
 <font name="font">
   <file>font/dyslexic-bold.otf</file>
   <size>16</size>
-  <red>255</red>
-  <green>255</green>
-  <blue>255</blue>
+  <red>0</red>
+  <green>0</green>
+  <blue>0</blue>
   <unused>0</unused>
 </font>
-<numberOfFruits>30</numberOfFruits>
+<numberOfFruits>10</numberOfFruits>
 <banana>
   <file>images/banana.png</file>
   <cushion>50</cushion>
@@ -73,7 +69,7 @@
   <transparency>true</transparency>
 </banana>
 <pineapple>
-  <file>images/pineapple1.png</file>
+  <file>images/pineapple.png</file>
   <cushion>50</cushion>
   <scale min="0.5" max="3"/>
   <src x="0" y="0"/>
@@ -83,31 +79,16 @@
   <speed x="0" y="250"/>
   <transparency>true</transparency>
 </pineapple>
-<man>
-  <file>images/basketball.png</file>
-  <startLoc x="0" y="300"/>
-  <frames>14</frames>
+
+<monkey>
+  <file>images/monkey.png</file>
+  <startLoc x="0" y="340"/>
+  <frames>16</frames>
+  <idleframe>6</idleframe>
   <frameInterval>90</frameInterval>
   <speedX>-400</speedX>
   <speedY>400</speedY>
   <transparency>true</transparency>
-</man>
+</monkey>
 
-<bird>
-  <file>images/bird.png</file>
-  <startLoc x="0" y= "70"/>
-  <frames>8</frames>
-  <frameInterval>50</frameInterval>
-  <speedX>-450</speedX>
-  <speedY>0</speedY>
-  <transparency>true</transparency>
-</bird>
-
-<ring>
-  <file>images/ring.png</file>
-  <startLoc x ="0" y = "0"/>
-  <speedX>-350</speedX>
-  <speedY>-350</speedY>
-  <transparency>true</transparency>
-</ring>
 </GameData>

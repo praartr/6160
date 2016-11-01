@@ -75,8 +75,21 @@ unsigned ScaledSprite::getPixel(Uint32 i, Uint32 j) const {
   return pixels[ ( y * frame->getWidth() ) + x ];
 }
 
-
-void ScaledSprite::update(Uint32 ticks) { 
+bool ScaledSprite::collidedWith(const Drawable* obj) const 
+{
+ 	const Frame *monkeyFrame = obj->getFrame();
+	if(getScale()<=1 /* || getName()=="banana"*/)
+		return false;
+	Uint16 x = obj->X();
+	Uint16 y = obj->Y();
+        Uint16 endx = x + monkeyFrame->getWidth();
+	Uint16 endy = y + monkeyFrame->getHeight();	
+	if(X() > x && X() < endx && Y() > y && Y() < endy)
+		return true;
+	return false;    
+}
+void ScaledSprite::update(Uint32 ticks) 
+{ 
   Vector2f incr = getVelocity() * static_cast<float>(ticks) * 0.001;
   setPosition(getPosition() + incr);
 
@@ -95,3 +108,4 @@ void ScaledSprite::update(Uint32 ticks) {
     velocityX( -abs( velocityX() ) );
   }  
 }
+

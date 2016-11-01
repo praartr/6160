@@ -26,7 +26,7 @@ public:
   Vector2f getCenter() const { 
     return Vector2f( X()+frame->getWidth()/2, Y()+frame->getHeight()/2 );
   }
-
+  virtual bool collidedWith(const Drawable*) const;
 private:
   double scale;
   SDL_Surface* scaledSurface;

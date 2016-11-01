@@ -30,13 +30,13 @@ Manager::Manager() :
   env( SDL_putenv(const_cast<char*>("SDL_VIDEO_CENTERED=center")) ),
   io( IOManager::getInstance() ),
   clock( Clock::getInstance() ),
+  showHud(Gamedata::getInstance().getXmlBool("hud/showHud")),
   screen( io.getScreen() ),
   bananaSurface (io.loadAndSet(Gamedata::getInstance().getXmlStr("banana/file"), 
               Gamedata::getInstance().getXmlBool("banana/transparency")) ),
   pineappleSurface(io.loadAndSet(Gamedata::getInstance().getXmlStr("pineapple/file"), 
               Gamedata::getInstance().getXmlBool("pineapple/transparency")) ),            
   night_sky("night_sky", Gamedata::getInstance().getXmlInt("night_sky/factor") ),
-  back_building("back_building", Gamedata::getInstance().getXmlInt("back_building/factor") ),
   front_building("front_building", Gamedata::getInstance().getXmlInt("front_building/factor") ),
   platform("platform", Gamedata::getInstance().getXmlInt("platform/factor") ),
   viewport( Viewport::getInstance() ),
@@ -58,11 +58,9 @@ Manager::Manager() :
   SDL_WM_SetCaption(title.c_str(), NULL);
   atexit(SDL_Quit);
   sprites.reserve(1);
-  sprites.push_back( new TwoWaySprite("man") );
-  sprites.push_back( new MultiSprite("bird") );
-  sprites.push_back( new Sprite("ring") );
+  sprites.push_back( new TwoWaySprite("monkey") );
   viewport.setObjectToTrack(sprites[currentSprite]);
-  printFruits();
+//  printFruits();
 }
 void Manager::printFruits() const {
   for (unsigned i = 0; i < fruits.size(); ++i) {
@@ -105,7 +103,6 @@ void Manager::draw() const {
 	
   unsigned int start_index = 0;
   night_sky.draw();
-  back_building.draw();
   drawSmall(&start_index);
   front_building.draw();
   drawMedium(&start_index);
@@ -153,12 +150,17 @@ void Manager::update() {
     makeFrame();
   }
   night_sky.update();
-  back_building.update();
   front_building.update();
   platform.update();
-  health.update(ticks);
-  for(unsigned int i=0; i< fruits.size(); i++) {
+//  health.update(ticks);
+  for(unsigned int i=0; i< fruits.size(); i++) 
+  {
     fruits[i]->update(ticks);
+    bool isCollided = fruits[i]->collidedWith(sprites[0]);
+   if(isCollided)
+	 health.update(ticks);
+    //if(isCollided)
+	//reduceHealthMeter();
   }
   viewport.update(); // always update viewport last
 }
@@ -177,7 +179,7 @@ void Manager::play() {
           break;
         }
         if ( keystate[SDLK_t] ) {
-          switchSprite();
+         // switchSprite();
         }
         if( keystate[SDLK_a] ) {
          static_cast<TwoWaySprite*>(sprites[0])->left();

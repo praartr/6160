@@ -12,18 +12,16 @@ public:
   ~Manager ();
   void play();
   void switchSprite();
-  int showHud = Gamedata::getInstance().getXmlInt("hud/showHud");
 
 private:
   const bool env;
   const IOManager& io;
   Clock& clock;
-
+  bool showHud;
   SDL_Surface * const screen;
   SDL_Surface * const bananaSurface;
   SDL_Surface * const pineappleSurface;
   World night_sky;
-  World back_building;
   World front_building;
   World platform;
   Viewport& viewport;

@@ -60,9 +60,7 @@ void MultiSprite::update(Uint32 ticks) {
   if ( Y() > worldHeight-frameHeight) {
     
    velocityY( -abs( velocityY() ) );
-  
  }
-
   if ( X() < 0) {
     velocityX( abs( velocityX() ) );
   }

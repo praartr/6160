@@ -8,6 +8,7 @@ public:
   Health(int sx, int sy, int tl, int cl, 
          float t, int inc, Uint32 c, float sp);
   void draw() const;
+  void decreaseHealth();
   void update(Uint32);
   void reset() { currentLength = totalLength; }
 private:

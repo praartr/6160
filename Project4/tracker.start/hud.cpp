@@ -12,11 +12,11 @@ Hud::Hud():
 
 void Hud::draw() const {
 //transparent background
-Draw_AALine(screen,startX,startY+height/2,startX+width,startY+height/2,height,0xff,0xff,0xff,0x21);
+Draw_AALine(screen,startX,startY+height/2,startX+width,startY+height/2,height/40,0,0,0,0x50);
 //top border
 Draw_AALine(screen,startX,startY,startX+width,startY,3.0,255,0,0,0xFF);
 //bottom border
-Draw_AALine(screen,startX,startY+height,startX+width,startY+height,3.0,255,0,0,0xFF);
+Draw_AALine(screen,startX,startY+height/2,startX+width,startY+height/2,3.0,255,0,0,0xFF);
 io.printMessageValueAt("Fps:",clock.getAverageFrameRate(),startX+10,startY+30 );
 io.printMessageValueAt("Sec:",clock.getSeconds(),startX+10,startY+50);
 
@@ -25,3 +25,4 @@ io.printMessageAt("Right: Key D",startX+10,startY+90);
 io.printMessageAt("Jump : Key W",startX+10,startY+110);
 
 }
+
